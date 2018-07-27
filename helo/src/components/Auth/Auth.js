@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
+import { updateInput } from '../../ducks/reducer';
 
 import './Auth.css'
 
@@ -21,12 +24,12 @@ class Auth extends Component {
 
   addUser () {
     axios.post('/api/auth/register', {username: this.state.username, password: this.state.password})
-      .then(res => console.log(res.data))
+      .then(res => this.props.updateInput(res.data[0]))
   }
 
   login () {
     axios.post('/api/auth/login', {username: this.state.username, password: this.state.password})
-    .then(res => console.log(res.data))
+    .then(res => this.props.updateInput(res.data[0]))
   }
 
   render() {
@@ -47,11 +50,11 @@ class Auth extends Component {
         </div>
         <div>
           <Link to='/dashboard'><button onClick={() => this.addUser()}>Register</button></Link>
-          <Link to='/dashboard'><button>Login</button></Link>
+          <Link to='/dashboard'><button onClick={() => this.login()}>Login</button></Link>
         </div>
       </div>
     )
   }
 }
 
-export default Auth
+export default connect(null, { updateInput })(Auth)

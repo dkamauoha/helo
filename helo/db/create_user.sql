@@ -1,4 +1,4 @@
 INSERT INTO users (username, password)
 VALUES ($1, $2);
-SELECT * FROM users 
+SELECT id, username, profile_pic FROM users 
 WHERE username = $1;
